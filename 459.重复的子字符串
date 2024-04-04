@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        第一种做法  
+      // int n = s.size();
+        // if (!n) return false;
+        // int next[n];
+        // next[0] = -1;
+        构建next数组
+        // for (int i = 1, j = -1; i < n; i++)
+        // {
+        //     while (j >= 0 && s[j + 1] != s[i]) j = next[j];
+        //     if (s[j + 1] == s[i]) j ++;
+        //     next[i] = j;
+        // }
+eg：
+      a  b  c  a  b  c  a  b  c  a  b  c
+      -1 -1 -1 0  1  2  3  4  5  6  7  8
+      a  b  c  d  a  b e
+      -1 -1 -1 -1 0  1 -1
+如果说s可能有重复的子字符串，next[n-1]一定不为-1
+判断这个子串能不能重复为s，就判断这个子串的长度是否能被原串整除
+不能整除说明原串中有子串不能被最小重复子串表示
+也可以说最大前缀串和最大后缀串不相同
+        // if (next[n - 1] != -1 && (n % (n - next[n - 1] - 1) == 0))
+        //     return true;
+        
+        // return false;
+      第二种做法
+        // string t = s + s;
+        // t.erase(t.begin());
+        // t.erase(t.end() - 1);
+
+        // if (t.find(s) != std::string::npos) return true;
+        // else return false;
+    }
+};
