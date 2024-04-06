@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        stack<char> stk;
+
+        for (auto i : s)
+        {
+            if (!stk.empty() && stk.top() == i)
+                stk.pop();
+            else stk.push(i);
+        }
+        string res;
+        while (!stk.empty())
+        {
+            char t = stk.top();
+            res += t;
+            stk.pop();
+        }
+可以用reverse函数
+        reverse(res.begin(), res.end());
+
+        return res;
+    }
+};
+
+可以不用栈来实现栈的功能
+class Solution {
+public:
+    string removeDuplicates(string S) {
+        string result;
+        for(char s : S) {
+            if(result.empty() || result.back() != s) {
+                result.push_back(s);
+            }
+            else {
+                result.pop_back();
+            }
+        }
+        return result;
+    }
+};
+
