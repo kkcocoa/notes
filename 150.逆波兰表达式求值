@@ -1,0 +1,28 @@
+class Solution {
+public:
+    // stoi函数可以将字符串转化为数字
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+        for (auto i : tokens)
+        {
+            if (i == "+" || i == "-" || i == "*" || i == "/")
+            {
+                int a = stk.top();
+                stk.pop();
+                int b = stk.top();
+                stk.pop();
+                if (i == "+") stk.push(a + b);
+                else if (i == "-") stk.push(b - a);
+                else if (i == "*") stk.push(b * a);
+                else stk.push(b / a);
+            }
+            else 
+            {
+                int t = stoi(i);
+                stk.push(t);
+            }
+        }
+
+        return stk.top();
+    }
+};
