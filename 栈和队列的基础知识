@@ -1,0 +1,20 @@
+三个最为普遍的STL版本：
+
+1.HP STL 其他版本的C++ STL，一般是以HP STL为蓝本实现出来的，HP STL是C++ STL的第一个实现版本，而且开放源代码。
+
+2.P.J.Plauger STL 由P.J.Plauger参照HP STL实现出来的，被Visual C++编译器所采用，不是开源的。
+
+3.SGI STL 由Silicon Graphics Computer Systems公司参照HP STL实现，被Linux的C++编译器GCC所采用，SGI STL是开源软件，源码可读性甚高。
+
+
+栈和队列是SGI的STL的数据结构
+
+栈和队列由于具有先进先出（后出）的特性，并不提供迭代器不能像set，map等容器进行元素的遍历。
+栈和队列也被称为容器适配器，同时可以选择容器实现栈和队列的功能。
+可选的有：vector，deque，list。
+缺省状态下为deque（双端队列）。
+
+对外提供接口如pop，push等函数。
+
+list为c++中的双向链表需要“#include <list>”
+
