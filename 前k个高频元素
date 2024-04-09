@@ -1,0 +1,52 @@
+2024.4.26 23：51 Beijing time
+class Solution {
+public:
+// 定义cmp函数以便构造小顶堆
+    static bool cmp(pair<int, int>&m, pair<int, int>&n)
+    {
+        return m.second > n.second;
+    }
+class mycomparison {
+    public:
+        bool operator()(const pair<int, int>& lhs, const pair<int, int>& rhs) {
+            return lhs.second > rhs.second;
+        }
+    };
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+       // 统计数量
+        unordered_map<int, int> hash;
+        for (auto i : nums)
+            hash[i] ++;
+        // 堆的声明方式第一种
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(&cmp)> q(cmp);
+        // 第二种
+        priority_queue<pair<int, int>, vector<pair<int, int>>, mycomparison> q;
+        for (auto& [num, count] : hash)
+        {
+            if (q.size() == k) // 如果堆中的个数等于k，且最小值小于遍历的值，将它移除出去，也是为什么选用小根堆的原因。
+            {
+                if (q.top().second < count)
+                {
+                    q.pop();
+                    q.emplace(num, count);
+                    // q.push(std::make_pair<num, count>);
+                    // 使用push需要使用变量进行保存，使用emplace可以直接创建
+                }
+                
+            }
+            // 少于k个就添加进来
+            else q.emplace(num, count);
+        }
+
+        vector<int> res;
+
+        while (!q.empty())
+        {
+            res.emplace_back(q.top().first);
+            q.pop();
+        }
+
+         return res;
+
+    }
+};
