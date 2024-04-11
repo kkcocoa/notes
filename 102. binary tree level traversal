@@ -44,3 +44,23 @@ public:
     }
 };
 // 需要掌握递归的解法
+class Solution {
+public:
+   void leveltraversal(TreeNode* root, vector<vector<int>>& res, int depth){
+    if (root == nullptr) return;
+    // 如果depth第一次达到res的大小 说明开始了第depth层遍历需要添加新的小数组
+    if (depth == res.size()) res.push_back({});
+
+    res[depth].push_back(root->val);
+    leveltraversal(root->left, res, depth + 1);
+    leveltraversal(root->right, res, depth + 1);
+}
+
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        int d = 0;
+        vector<vector<int>> res;
+        leveltraversal(root, res, d);
+
+        return res;
+    }
+};
