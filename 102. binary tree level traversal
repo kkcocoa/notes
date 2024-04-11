@@ -1,0 +1,45 @@
+思路历程：
+1.层序遍历想到了bfs，因此我打算使用队列来处理这个问题
+2.想想需要解决哪些问题 每个小数组的大小是多少（最初认为是<=2） 如何规定小数组的范围呢？（设置标记结点）
+即每次处理完一个结点把合法节点的非空子结点加入到队列里面以及标记结点
+遇到标记结点就处理小数组和大数组
+3.测试完成后发现层序遍历是根据树的深度而不是每个结点，换句话来讲就是小数组的大小我理解错误了，
+树的每一层的结点数目不只是为0.
+4.思想转换，我尝试去更改标记变量的值，发现有些困难，鉴于时间有限，看了题解，用队列大小去限制小数组的大小
+在一个循环内处理一整层的数据，这个是我没有想到的，也可以说是我的思想出错了，bfs就是处理每一层的问题
+我却处理成处理每一个结点的问题，这实在是不应该。
+
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if (root == nullptr) return {};
+
+        queue <TreeNode*> que;
+        vector<vector<int>> res;
+        vector<int> temp;
+        // 初始化
+        que.push(root);
+
+        while (!que.empty())
+        {
+            int size = que.size();
+            
+            for (int i = 0; i < size; i ++)
+            {
+                // 获取队首结点
+                TreeNode* cur = que.front();
+                // 弹出队列
+                que.pop();
+                temp.push_back(cur->val);
+                // 将左右子节点插入队列
+                if (cur->left) que.push(cur->left);
+                if (cur->right) que.push(cur->right);
+            }
+            res.push_back(temp);
+            temp = {};
+            
+        }
+
+        return res;
+    }
+};
