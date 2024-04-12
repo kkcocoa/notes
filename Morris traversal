@@ -1,0 +1,67 @@
+#include <iostream>
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+// 中序遍历
+// 通过建立线索二叉树
+// 找到当前结点的前驱结点
+void morrisTraversal(TreeNode *root) {
+    TreeNode *current = root;
+    while (current != nullptr) {
+        if (current->left == nullptr) {
+            // 输出当前节点
+            std::cout << current->val << " ";
+            // 移动到右子节点
+            current = current->right;
+        } else {
+            // 找到前驱节点
+            TreeNode *predecessor = current->left;
+            while (predecessor->right != nullptr && predecessor->right != current) {
+                predecessor = predecessor->right;
+            }
+            if (predecessor->right == nullptr) {
+                // 建立线索
+                predecessor->right = current;
+                // 移动到左子节点
+                current = current->left;
+            } else {
+                // 恢复树结构
+                predecessor->right = nullptr;
+                // 输出当前节点
+                std::cout << current->val << " ";
+                // 移动到右子节点
+                current = current->right;
+            }
+        }
+    }
+}
+
+int main() {
+    // 创建一个简单的二叉树进行测试
+    //       1
+    //      / \
+    //     2   3
+    //    / \
+    //   4   5
+    TreeNode *root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+
+    std::cout << "Morris Inorder Traversal: ";
+    morrisTraversal(root);
+    std::cout << std::endl;
+
+    // 清理分配的内存
+    delete root->left->right;
+    delete root->left->left;
+    delete root->left;
+    delete root->right;
+    delete root;
+
+    return 0;
+}
