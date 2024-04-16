@@ -1,0 +1,66 @@
+class Solution {
+public:
+    void traversalleft(TreeNode* root, vector<int>& res)
+    {
+        if (!root) {
+            res.push_back(101);
+            return;
+        }
+        stack<TreeNode*> stk;
+        stk.push(root);
+
+        while (!stk.empty())
+        {
+            TreeNode* cur = stk.top();
+            stk.pop();
+            if (!cur) 
+            {
+                res.push_back(101);
+                continue;
+            }
+            else res.push_back(cur->val);
+
+            stk.push(cur->left); 
+            stk.push(cur->right);
+        }
+    }
+    void traversalright(TreeNode* root, vector<int>& res)
+    {
+        if (!root) {
+            res.push_back(101);
+            return;
+        }
+        stack<TreeNode*> stk;
+        stk.push(root);
+
+        while (!stk.empty())
+        {
+            TreeNode* cur = stk.top();
+            stk.pop();
+            if (!cur) 
+            {
+                res.push_back(101);
+                continue;
+            }
+            else res.push_back(cur->val);
+
+            stk.push(cur->right);
+            stk.push(cur->left);  
+        }
+    }
+    bool isSymmetric(TreeNode* root) {
+        vector<int> left, right;
+        traversalleft(root->left, left);
+        traversalright(root->right, right);
+    
+        int n = left.size(), m = right.size();
+        if (n != m) return false;
+        
+        for (int i = 0; i < n; i ++)
+            if (left[i] != right[i]) return false;
+        
+        return true;
+    }
+};
+
+相关题目572 100
