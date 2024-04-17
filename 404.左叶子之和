@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // 找到左节点
+    // 是前一结点的左结点
+    // 每次处理拿出一个结点判断左节点是否为叶子结点
+    // 如果是res++不把此结点放入队列中
+    // 如果是右结点加入队列
+    int sumOfLeftLeaves(TreeNode* root) {
+        if (!root->left && !root->right) return 0;
+
+        queue<TreeNode*> que;
+        que.push(root);
+        int res = 0;
+
+        while (!que.empty())
+        {
+            int n = que.size();
+            for (int i = 0; i < n; i++)
+            {
+                TreeNode* cur = que.front();
+                que.pop();
+                TreeNode* l = cur->left;
+                // cur不会为空但是l可能为空
+                if (!l) 
+                {
+                    if (cur->right) que.push(cur->right);
+                    continue;
+                }
+                if (!l->left && !l->right)
+                {
+                    res += l->val;
+                    if (cur->right) que.push(cur->right);
+                    continue;
+                }
+                if (l) que.push(l);
+                if (cur->right) que.push(cur->right);
+            }
+        }
+        
+        return res;
+    }
+};
