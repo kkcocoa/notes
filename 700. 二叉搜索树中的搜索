@@ -1,0 +1,18 @@
+class Solution {
+public:
+    TreeNode* mysearch(TreeNode* root, int val)
+    {
+        // 初始处理
+        if (root == NULL || root->val == val) return root;
+        // 给定的是一个二叉搜索树
+        // 即有序的一棵树
+        // 通过这样可以进行优化
+        if (root->val > val)
+            return mysearch(root->left, val);
+
+        return mysearch(root->right, val);
+    }
+    TreeNode* searchBST(TreeNode* root, int val) {
+        return mysearch(root, val);
+    }
+};
