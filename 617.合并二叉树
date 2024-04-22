@@ -1,0 +1,19 @@
+class Solution {
+public:
+    TreeNode* mymerge(TreeNode* root1, TreeNode* root2)
+    {   
+        // 如果两个指针有一个是空指针就将另外一个指针返回
+        // 也可能都是空指针，根据题意此时返不返回都是可以的
+        // 因为在默认结点构造时就是空指针
+        if (!root1) return root2;
+        if (!root2) return root1;
+
+        root1->val += root2->val;
+        root1->left = mymerge(root1->left, root2->left);
+        root1->right = mymerge(root1->right, root2->right);
+        return root1;
+    }
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        return mymerge(root1, root2);
+    }
+};
