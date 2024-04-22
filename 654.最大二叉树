@@ -1,0 +1,20 @@
+class Solution {
+public:
+    TreeNode* myfun(vector<int> &nums, int lbegin, int lend)
+    {
+        if (lbegin > lend) return nullptr;
+
+        int index = lbegin;
+        for (int i = lbegin; i <= lend; i++)
+            if (nums[index] < nums[i]) index = i;
+        
+        TreeNode* root = new TreeNode(nums[index]);
+        root->left = myfun(nums, lbegin, index - 1);
+        root->right = myfun(nums, index + 1, lend);
+
+        return root;
+    }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return myfun(nums, 0, nums.size() - 1);
+    }
+};
