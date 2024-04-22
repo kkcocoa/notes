@@ -1,0 +1,16 @@
+// 因为root可能取到int的极限值，处于比较的需要需要将上下区间变成long long类型
+class Solution {
+public:
+// 子树的所有结点都要满足条件
+    bool myfun(TreeNode* root, long long low, long long high)
+    {   
+        if (!root) return true;
+        if (root->val >= high || root->val <= low)
+            return false;
+
+        return (myfun(root->left, low, root->val) && myfun(root->right, root->val, high));
+    }
+    bool isValidBST(TreeNode* root) {
+        return myfun(root, LONG_MIN, LONG_MAX);
+    }
+};
