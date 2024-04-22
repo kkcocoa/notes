@@ -1,0 +1,61 @@
+class Solution {
+public:
+// 左子树的最右侧结点，右子树的最左侧结点以及根节点最为接近
+    int myfun(TreeNode* root)
+    {
+        int l = INT_MIN;
+        if (root->left)   
+        {
+            TreeNode* cur = root->left;
+            while (cur)
+            {
+                if (cur->val > l) l = cur->val;
+                if (cur->right) cur = cur->right;
+                else cur = cur->left;
+            }
+        }
+        int r = INT_MAX;
+        if (root->right)   
+        {
+            TreeNode* cur = root->right;
+            while (cur)
+            {
+                if (cur->val < r) r = cur->val;
+                if (cur->left) cur = cur->left;
+                else cur = cur->right;
+            }
+        }
+
+        if (l == INT_MIN) return r - root->val;
+        else if (r == INT_MAX) return root->val - l;
+        int min1 = root->val - l;
+        int min2 = r - root->val;
+        if (min1 < min2) return min1;
+        return min2;
+    }
+    int getMinimumDifference(TreeNode* root) {
+        queue <TreeNode*> que;
+        int res = INT_MAX;
+        // 初始化
+        que.push(root);
+
+        while (!que.empty())
+        {
+            int size = que.size();
+            
+            for (int i = 0; i < size; i ++)
+            {
+                // 获取队首结点
+                TreeNode* cur = que.front();
+                // 弹出队列
+                que.pop();
+                if (myfun(cur) < res) res = myfun(cur);
+                if (cur->left) que.push(cur->left);
+                if (cur->right) que.push(cur->right);
+            }
+            
+        }
+
+        return res;
+    }
+};
