@@ -1,0 +1,34 @@
+class Solution {
+public:
+    // 因为是二叉搜索树，也就是说是有序的
+    // 如果q，p分别小于等于root和大于等于root，一定就是root
+    // 如果不是就递归的在root的左右结点进行寻找
+    TreeNode* mysearch(TreeNode* root, TreeNode* p, TreeNode* q)
+    {
+        if (!root) return NULL;
+
+        if (p->val <= root->val && q->val >= root->val)
+            return root;
+        else if (p->val >= root->val && q->val <= root->val)
+            return root;
+
+        TreeNode* t = mysearch(root->left, p, q);
+        if (t) return t;
+        t = mysearch(root->right, p, q);
+        return t;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        return mysearch(root, p, q);
+    }
+};
+
+时间复杂度分析：
+
+每次递归调用时，我们都会检查当前节点是否是 p 和 q 的最低公共祖先。这个检查操作的时间复杂度是 O(1)。
+如果当前节点不是最低公共祖先，我们只会递归地进入左子树或右子树中的一个，因为 p 和 q 只能存在于其中一个子树中。因此，每次递归调用都会将问题的大小减半。
+综上所述，时间复杂度是 O(h)，其中 h 是树的高度。在最坏的情况下，树可能完全不平衡，高度为 O(n)，其中 n 是树中节点的数量。但是，在平衡二叉搜索树的情况下，高度为 O(log n)，因此在这种情况下，时间复杂度是 O(log n)。
+
+空间复杂度分析：
+
+递归调用栈：在最坏的情况下，树可能完全不平衡，递归调用栈的深度为 O(n)，其中 n 是树中节点的数量。但是，在平衡二叉搜索树的情况下，递归调用栈的深度为 O(log n)，因此在这种情况下，空间复杂度是 O(log n)。
+综上所述，总的时间复杂度是 O(h)，空间复杂度也是 O(h)，其中 h 是树的高度。在平衡二叉搜索树的情况下，时间复杂度和空间复杂度均为 O(log n)。
