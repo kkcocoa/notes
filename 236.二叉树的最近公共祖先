@@ -1,0 +1,57 @@
+class Solution {
+public: 
+// 首先找到两个结点的位置
+// 这样就必须遍历整棵树去寻找
+// 在寻找的过程中把每个结点的祖先结点包括自己存入一个数组中
+// 最后根据两个数组找到符合题意的祖先
+
+// 不过最后超空间了所以只保存当前父亲结点就可以
+    unordered_map<TreeNode*, TreeNode*> h;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        queue<TreeNode*> que;
+        que.push(root);
+        h[root] = NULL;
+        while (!que.empty())
+        {
+            int n = que.size();
+            for (int i = 0; i < n; i ++)
+            {
+                TreeNode* cur = que.front();
+                que.pop();
+                if (cur->left)
+                {
+                    h[cur->left] = cur;
+                    que.push(cur->left);
+                }
+                if (cur->right)
+                {
+                    h[cur->right] = cur;
+                    que.push(cur->right);
+                }
+            }
+        }
+        // 只能保存自己和父结点
+        TreeNode* cur1 = p;
+        while (cur1)
+        {
+            TreeNode* cur2 = q;
+            while (cur2)
+            {
+                if (cur1 == cur2)
+                {
+                    return cur1;
+                }
+                cur2 = h[cur2];
+            }
+            cur1 = h[cur1];
+        }
+
+        return NULL;
+    }
+};
+
+分析时空复杂度：
+时间，层序遍历o（n），最后两重循环最坏情况都位于底层的叶子结点，o（n^2）
+因此为n方
+空间，层序遍历n，哈希表n
+n
