@@ -1,0 +1,41 @@
+class Solution {
+public:
+    // 在bst中插入一个结点
+    // 因为只需要返回任意一种可能即可
+    // 我采取递归的思想，比较待插入的值和当前结点的值
+    // 如果比结点值大（小）且对应子结点为空
+    // 新建这个结点并把它插入进去
+    // 如果这个位置有结点就递归至下一层
+    void myint(TreeNode* root, int val)
+    {
+        
+        int r_val = root->val;
+        if (val > r_val)
+        {
+            if (!root->right)
+            {
+                TreeNode* creat = new TreeNode(val);
+                root->right = creat;
+                return;
+            }
+            else 
+                myint(root->right, val);
+        }
+        else if (r_val > val)
+        {
+            if (!root->left)
+            {
+                TreeNode* creat = new TreeNode(val);
+                root->left = creat;
+                return;
+            }
+            else 
+                myint(root->left, val);
+        }
+    }
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if (!root) return new TreeNode(val);
+        myint(root, val);
+        return root;
+    }
+};
