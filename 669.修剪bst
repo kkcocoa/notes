@@ -1,0 +1,21 @@
+//1.遍历整棵树
+//如果遇到不是范围的值需要删除
+
+// 1.左右子树都为空直接返回空
+// 2.如果此值小于等于范围值的最小值，左子树不需要遍历
+// 3.同理如果大于等于则右子树不用遍历
+// 4.对于在范围中的结点使其左结点为递归左节点的返回值，同理右侧相同
+
+    TreeNode* my_trimbst(TreeNode* root, int low, int high)
+    {
+        if (root == nullptr)
+            return nullptr;
+        if (root->val < low)
+            return my_trimbst(root->right, low, high);
+        if (root->val > high)
+            return my_trimbst(root->left, low, high);
+        
+        root->left = my_trimbst(root->left, low, high);
+        root->right = my_trimbst(root->right, low, high);
+        return root;
+    }
