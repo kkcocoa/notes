@@ -1,0 +1,17 @@
+// 二叉搜索树的中序遍历是升序序列，题目给定
+// 的数组是按照升序排序的有序数组，因此可以确保数组是二叉搜索树的中序遍历序列。
+    TreeNode* my_constructor(vector<int>& nums, int left, int right)
+    {
+        if (left > right) return nullptr;
+        int mid = (left + right) / 2;
+        TreeNode* root = new TreeNode(nums[mid]);
+
+        root->left = my_constructor(nums, left, mid - 1);
+        root->right = my_constructor(nums, mid + 1, right);
+
+        return root;
+    }
+
+时间复杂度：O(n)O(n)O(n)，其中 nnn 是数组的长度。每个数字只访问一次。
+
+空间复杂度：O(log⁡n)O(\log n)O(logn)，其中 nnn 是数组的长度。空间复杂度不考虑返回值，因此空间复杂度主要取决于递归栈的深度，递归栈的深度是 O(log⁡n)O(\log n)O(logn)。
