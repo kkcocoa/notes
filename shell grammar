@@ -1,0 +1,4 @@
+if you try to use '!' in string constuction
+you should do like this:
+  name="hey\!zjq"
+be careful, there is no space between "=" and """
