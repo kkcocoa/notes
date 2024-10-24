@@ -1,0 +1,104 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+struct TreeNode {
+    int value;  // 节点值
+    TreeNode* left;  // 左子节点指针
+    TreeNode* right;  // 右子节点指针
+    TreeNode(int val) : value(val), left(nullptr),
+        right(nullptr) {}  // 构造函数
+};
+
+TreeNode* createTree(vector<int>& nodes) {
+    if (nodes.empty()) return nullptr;
+
+    TreeNode* root = new TreeNode(nodes[0]);
+    queue<TreeNode*> q;
+    q.push(root);
+
+    for (int i = 1; i < nodes.size(); i += 2) {
+        TreeNode* parent = q.front();
+        q.pop();
+
+        if (nodes[i] != 0) {
+            parent->left = new TreeNode(nodes[i]);
+            q.push(parent->left);
+        }
+        else 
+        {
+            q.push(new TreeNode(0));
+        }
+        if (i + 1 < nodes.size() && nodes[i + 1] != 0) {
+            parent->right = new TreeNode(nodes[i + 1]);
+            q.push(parent->right);
+        }
+        else 
+        {
+            q.push(new TreeNode(0));
+        }
+    }
+
+    return root;
+}
+
+// 先序遍历
+void preorderTraversal(TreeNode* root) {
+    if (!root) return;
+    cout << root->value << " ";
+    preorderTraversal(root->left);
+    preorderTraversal(root->right);
+}
+
+// 中序遍历
+void inorderTraversal(TreeNode* root) {
+    if (!root) return;
+    inorderTraversal(root->left);
+    cout << root->value << " ";
+    inorderTraversal(root->right);
+}
+
+// 后序遍历
+void postorderTraversal(TreeNode* root) {
+    if (!root) return;
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    cout << root->value << " ";
+}
+
+
+int main() {
+    vector<int> nodes;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i ++)
+    {
+        int x;
+        cin >> x;
+        nodes.push_back(x);
+    }
+    TreeNode* root = createTree(nodes);
+
+    queue<TreeNode*> que;
+    que.push(root);
+
+    while(!que.empty())
+    {
+        TreeNode* cur = que.front();
+        que.pop();
+        if (cur->left) que.push(cur->left);
+        if (cur->right) que.push(cur->right);
+    }
+
+    preorderTraversal(root);
+    cout << endl;
+
+    inorderTraversal(root);
+    cout << endl;
+
+    postorderTraversal(root);
+    cout << endl;
+
+    return 0;
+}
